@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SPEECH TO TEXT</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<meta name="viewport" content="width=device-width,initil-scale=1.0">
+
+  
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudfare.com/ajax/libs/split.js/1.5.9/split.min.js"></script>
+
+        <style type="text/css">
+             body{
+                 font-family:verdana;
+             }
+
+             #result{
+                 height:200px;
+                 border:1px solid #ccc;
+                 padding:10px;
+                 box-shadow:0 0 10px 0 #bbb;
+                 margin-bottom:30px;
+                 font-size:14px;
+                 line-height:25px;
+             }
+
+             button{
+                 font-size:20px;
+                 position:absolute;
+                 top:240px;
+                 left:50%;
+             }
+
+             .side-a{
+                 width:100%;
+                 height:100vh;
+                background-image: url('https://c4.wallpaperflare.com/wallpaper/611/838/413/spiderman-hd-4k-superheroes-wallpaper-preview.jpg');
+               background-size: 100% 100%;
+                background-attachment: fixed;
+             }
+
+             .side-b{
+                 width:100%;
+                 height:100vh;
+                 background-image: url('https://i.pinimg.com/originals/ae/94/c4/ae94c45481bda498d216b58921192b5e.jpg');
+               background-size: 100% 100%;
+                background-attachment: fixed;
+                filter:grayscale(100%);
+             }
+
+             .gutter{
+                 cursor:w-resize;
+                 height:100%;
+                 background:grey;
+             }
+        
+        
+        </style>
+    </head>
+
+    <body>
+        <h4 align="center" style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">Some People Move On But Not Us</h4>
+        <div id="result"></div>
+        <button onclick="startConverting()"><i class="fa fa-microphone"></i></button>
+
+        <div class="side-a a">
+        </div>
+
+        
+        <div class="side-b b">
+        </div>
+
+        <script type="text/javascript">
+        
+             var r=document.getElementById('result');
+
+             function startConverting(){
+
+                if('webkitSpeechRecognition' in window)
+                {
+                  var speechRecognizer=new webkitSpeechRecognition();
+                  speechRecognizer.continuous=true;
+                  speechRecognizer.interimResults=true;
+                  speechRecognizer.lang='en-IN';
+                  speechRecognizer.start();
+
+                 var finalTranscripts='';
+
+                 speechRecognizer.onresult=function(event){
+                        var interimTranscripts='';
+                        for(var i=event.resultIndex;i<event.results.length;i++){
+                               var transcript=event.results[i][0].transcript;
+                               transcript.replace("\n","<br>");
+                               if(event.results[i].isFinal){
+                                   finalTranscripts+=transcript;
+                               }
+                               else{
+                                   interimTranscripts+=transcript;
+                               }
+                        }
+
+                        r.innerHTML=finalTranscripts+'<span style="color:#999">'+interimTranscripts+'</span>';
+                 };
+
+                 speechRecognizer.onerror=function(event){
+                     
+                }
+             }
+             else{
+                     r.innerHTML='Your Browser is not supported.';
+             }
+
+             }
+
+Split(['.a','.b',],{
+    gutterSize:3,
+    sizes:[25,75]
+})
+            
+        </script>
+    </body>
+
+</html>
